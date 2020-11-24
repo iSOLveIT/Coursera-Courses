@@ -1,0 +1,79 @@
+# basic_window.py
+# Imports
+import sys  # sys is used inorder to pass command-line args to our app and close them
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel
+# QtGui handles numerous graphical elements. QPixmap is a Qt class that is optimized for showing images on screen.
+from PyQt5.QtGui import QPixmap
+
+
+class EmptyWidget(QWidget):
+"""
+This class inherits from the QWidget class where all user interface
+objects are derived
+"""
+def __init__(self):
+super().__init__()  # create default constructor for QWidget
+self.initialize_ui()
+
+def initialize_ui(self):
+"""
+:return: Initialize the window and display its contents to the screen.
+"""
+# setGeometry() defines the location of the window on your computer screen and its dimensions, width and height
+self.setGeometry(200, 200, 400, 500)    # set location of window (x_location, y_location, width, height)
+self.setWindowTitle("Empty Window Application BY PyQt5")     # Title for the window
+self.show()     # display window object to the screen.
+
+
+class HelloWorldWidget(QWidget):
+"""
+This class inherits from the QWidget class where all user interface
+objects are derived
+"""
+def __init__(self):
+super().__init__()  # create default constructor for QWidget
+self.initialize_ui()
+
+def initialize_ui(self):
+"""
+:return: Initialize the window and display its contents to the screen.
+"""
+# setGeometry() defines the location of the window on your computer screen and its dimensions, width and height
+self.setGeometry(100, 100, 650, 600)    # set location of window (x_location, y_location, width, height)
+self.setWindowTitle("QLabel Example")     # Title for the window
+self.display_labels()
+self.show()     # display window object to the screen.
+
+def display_labels(self):
+"""
+Display text and images using QLabels.
+Check to see if image files exist, if not throw an exception
+"""
+text = QLabel(self)
+text.setText('Hello')
+text.move(325, 15)  # We layout using absolute positioning with the move() method that takes (x, y) pixel values
+
+image = "images/cout_name.png"
+try:
+with open(image):
+monkey_image = QLabel(self)
+pixmap = QPixmap(image)     # construct a QPixmap of the image
+monkey_image.setPixmap(pixmap)  # used to show the image displayed on the image label.
+monkey_image.move(25, 40)
+except FileNotFoundError:
+print("Image not found")
+
+
+# Run program
+if __name__ == '__main__':
+"""
+You only need to create a single instance of the QApplication class, which
+manages the application’s main event loop, flow, initialization, and finalization, as well
+as session management.
+"""
+# QApplication is the frame that contains our window, that is why we create it before creating window.
+app = QApplication(sys.argv)    # u can pass in an empty-list if the program won't take any command-line arguments
+window = HelloWorldWidget()
+# window2 = EmptyWidget()
+# sys.exit() - ensures a clean exit
+sys.exit(app.exec_())   # app.exec_() - starts the event loop and remains there until we quit app
